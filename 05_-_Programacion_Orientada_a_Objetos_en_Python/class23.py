@@ -1,6 +1,7 @@
 # Programación Orientada a Objetos en Python: Clases y Métodos Básicos
 
 class Person:
+    # Constructor
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -16,9 +17,10 @@ person2.greet()
 
 # Cuenta de Banco con Métodos para Depositar, Retirar y Activar/Desactivar Cuenta
 class BankAccount:
+    # Constructor
     def __init__(self, account_holder, balance):
         self.account_holder = account_holder
-        self. balance = balance
+        self.balance = balance
         self.is_active = True
     
     def deposit(self, amount):
@@ -29,7 +31,7 @@ class BankAccount:
             print("No se puede depositar, Cuenta inactiva")
 
     def withdraw(self, amount):
-        if self.active:
+        if self.is_active:
             if amount <= self.balance:
                 self.balance -= amount
                 print(f"Se ha retirado {amount}. Saldo actual {self.balance}")
@@ -52,3 +54,6 @@ account1.deactivate_account()
 account1.deposit(50)
 account1.activate_account()
 account1.deposit(50)
+account1.withdraw(100)
+account1.withdraw(700)
+account1.withdraw(650)
