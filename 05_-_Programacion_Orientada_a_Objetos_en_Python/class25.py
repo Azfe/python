@@ -2,10 +2,7 @@
 # Los usuarios pueden preguntar los vehículos disponibles, su precio y comprarlos.
 
 from datetime import date
-import locale
 
-# Establecer la configuración regional a España
-locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')  # En Windows puede que necesites 'Spanish_Spain.1252'. Sustituir por 'es_ES.UTF-8'
 class Vehicle:
     def __init__(self, license_plate, car_brand, car_model, year, mileage, price, id_owner=None, is_new=True):
         self.license_plate = license_plate
@@ -21,18 +18,10 @@ class Vehicle:
         if self.is_new and self.id_owner is not None:
             raise ValueError("Un coche nuevo no debe tener propietario asignado.")
         
-    def check_availability(self):
-        return self.available
-    
-    def get_price(self):
-        return self.price
-        
     def __str__(self):
         estado = "Fábrica" if self.is_new else "Usado"
         propietario = f"Cliente {self.id_owner}" if self.id_owner else "Concesionario"
-        # price_format = f"{self.get_price():,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        price_format = locale.currency(self.price, symbol=False, grouping=True)
-        return f"{self.car_brand} {self.car_model} ({self.year}) - {self.license_plate} - {price_format}€ - {estado} - {propietario}" 
+        return f"{self.car_brand} {self.car_model} ({self.year}) - {self.license_plate} - {self.price}€ - {estado} - {propietario}" 
     
 class Customer:
     def __init__(self, id_customer, name, lastname, email, age, dni, registration_date):
@@ -42,16 +31,7 @@ class Customer:
         self.email = email
         self.age = age
         self.dni = dni
-        self.registration_date = registration_date  
-    
-    def inquire_car(self, vehicle):
-        if vehicle.check_availability():
-            print(f"El coche {vehicle.car_brand} {vehicle.car_model} está disponible y cuesta {vehicle.get_price():,.2f}€.")
-        else:
-            print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' no se encuentra disponible.")
-            
-        # availability = "disponible" if vehicle.check_availability() else "no disponible"
-        # print(f"El coche {vehicle.car_brand} {vehicle.car_model} está {availability} y cuesta {vehicle.get_price()}.")
+        self.registration_date = registration_date     
 
     def __str__(self):
         return f"{self.id_customer} - {self.name} {self.lastname} - {self.dni} - {self.email} - {self.age} años - {self.registration_date}"
@@ -105,12 +85,11 @@ class Dealership:
         customer.id_customer = customers_counter        
         print(f"El cliente '{customer.name} {customer.lastname}' ha sido dado de alta con ID: {customer.id_customer}.")
         
-    def show_available_vehicles(self):        
+    def show_available_vehicles(self):
         print("Vehículos disponibles:")
         for vehicle in self.vehicles:
-            estado = "Fábrica" if vehicle.is_new else "Usado"
             if vehicle.available:
-                print(f"- {vehicle.car_brand} {vehicle.car_model} - ({vehicle.year}) - {vehicle.mileage}Km - {vehicle.price}€ - Estado: {estado}")
+                print(f"- {vehicle.car_brand} {vehicle.car_model} - ({vehicle.year}) - {vehicle.mileage} - {vehicle.price}€")
     
     def sell_vehicle(self, license_plate, buyer_id):
         for vehicle in self.vehicles:
@@ -206,9 +185,3 @@ dealer.list_sales()
 
 # Lista las compras realizadas
 dealer.list_purchases()
-
-# Consultar disponibilidad
-cliente1.inquire_car(vehiculo2)
-cliente1.inquire_car(vehiculo3)
-cliente2.inquire_car(vehiculo1)
-cliente3.inquire_car(vehiculo4)
