@@ -43,10 +43,22 @@ class Customer:
         self.age = age
         self.dni = dni
         self.registration_date = registration_date  
-    
+        self.vehicles_owned = []
+        
+    def get_owned_vehicles(self, vehicle_list):
+        # self.vehicles_owned = [v for v in vehicle_list if v.id_owner == self.id_customer]
+        for v in vehicle_list: # Comprobar si vehículo es del cliente
+            if v.id_owner == self.id_customer:
+                self.vehicles_owned.append(v)
+                # print(f"El vehículo es de {self.name}")
+        # return self.vehicles_owned    
+        print(f"\n🚗 Vehículos en propiedad de {self.name}:")
+        for vo in self.vehicles_owned:
+            print(f" - {vo}")
+            
     def inquire_car(self, vehicle):
         if vehicle.check_availability():
-            print(f"El coche {vehicle.car_brand} {vehicle.car_model} está disponible y cuesta {vehicle.get_price():,.2f}€.")
+            print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' está disponible y cuesta {vehicle.get_price():,.2f}€.")
         else:
             print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' no se encuentra disponible.")
             
@@ -197,6 +209,7 @@ dealer.register_vehicle(vehiculo4)
 
 # Cliente compra nuevo coche
 dealer.sell_vehicle(vehiculo2.license_plate, cliente3.id_customer)
+dealer.sell_vehicle(vehiculo4.license_plate, cliente3.id_customer)
 
 # Listar coches disponibles
 dealer.show_available_vehicles()
@@ -212,3 +225,7 @@ cliente1.inquire_car(vehiculo2)
 cliente1.inquire_car(vehiculo3)
 cliente2.inquire_car(vehiculo1)
 cliente3.inquire_car(vehiculo4)
+
+# Supongamos que dealer.vehicles contiene todos los vehículos
+mis_coches = cliente3.get_owned_vehicles(dealer.vehicles)
+mis_coches = cliente2.get_owned_vehicles(dealer.vehicles)
