@@ -1,5 +1,8 @@
 import locale
 
+# Establecer la configuración regional a España
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')  # En Windows puede que necesites 'Spanish_Spain.1252'. Sustituir por 'es_ES.UTF-8'
+
 class Vehicle:
     def __init__(self, license_plate, car_brand, car_model, year, mileage, price, id_owner=None, is_new=True):
         self.license_plate = license_plate

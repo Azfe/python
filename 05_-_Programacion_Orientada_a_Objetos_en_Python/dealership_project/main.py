@@ -4,8 +4,14 @@
 from datetime import date
 import locale
 
+from models.vehicle import Vehicle
+from models.customer import Customer
+from models.purchase import Purchase
+from models.sale import Sale
+
 # Establecer la configuración regional a España
 locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')  # En Windows puede que necesites 'Spanish_Spain.1252'. Sustituir por 'es_ES.UTF-8'
+
 # class Vehicle:
 #     def __init__(self, license_plate, car_brand, car_model, year, mileage, price, id_owner=None, is_new=True):
 #         self.license_plate = license_plate
@@ -34,64 +40,64 @@ locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')  # En Windows puede que necesites
 #         price_format = locale.currency(self.price, symbol=False, grouping=True)
 #         return f"{self.car_brand} {self.car_model} ({self.year}) - {self.license_plate} - {price_format}€ - {estado} - {propietario}" 
     
-class Customer:
-    def __init__(self, id_customer, name, lastname, email, age, dni, registration_date):
-        self.id_customer = id_customer
-        self.name = name
-        self.lastname = lastname
-        self.email = email
-        self.age = age
-        self.dni = dni
-        self.registration_date = registration_date  
-        self.vehicles_owned = []
+# class Customer:
+#     def __init__(self, id_customer, name, lastname, email, age, dni, registration_date):
+#         self.id_customer = id_customer
+#         self.name = name
+#         self.lastname = lastname
+#         self.email = email
+#         self.age = age
+#         self.dni = dni
+#         self.registration_date = registration_date  
+#         self.vehicles_owned = []
         
-    def get_owned_vehicles(self, vehicle_list):
-        # self.vehicles_owned = [v for v in vehicle_list if v.id_owner == self.id_customer]
-        for v in vehicle_list: # Comprobar si vehículo es del cliente
-            if v.id_owner == self.id_customer:
-                self.vehicles_owned.append(v)
-                # print(f"El vehículo es de {self.name}")
-        # return self.vehicles_owned    
-        print(f"\n🚗 Vehículos en propiedad de {self.name}:")
-        for vo in self.vehicles_owned:
-            print(f" - {vo}")
+#     def get_owned_vehicles(self, vehicle_list):
+#         # self.vehicles_owned = [v for v in vehicle_list if v.id_owner == self.id_customer]
+#         for v in vehicle_list: # Comprobar si vehículo es del cliente
+#             if v.id_owner == self.id_customer:
+#                 self.vehicles_owned.append(v)
+#                 # print(f"El vehículo es de {self.name}")
+#         # return self.vehicles_owned    
+#         print(f"\n🚗 Vehículos en propiedad de {self.name}:")
+#         for vo in self.vehicles_owned:
+#             print(f" - {vo}")
             
-    def inquire_car(self, vehicle):
-        if vehicle.check_availability():
-            print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' está disponible y cuesta {vehicle.get_price():,.2f}€.")
-        else:
-            print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' no se encuentra disponible.")
+#     def inquire_car(self, vehicle):
+#         if vehicle.check_availability():
+#             print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' está disponible y cuesta {vehicle.get_price():,.2f}€.")
+#         else:
+#             print(f"El vehículo '{vehicle.car_brand} {vehicle.car_model}' no se encuentra disponible.")
             
-        # availability = "disponible" if vehicle.check_availability() else "no disponible"
-        # print(f"El coche {vehicle.car_brand} {vehicle.car_model} está {availability} y cuesta {vehicle.get_price()}.")
+#         # availability = "disponible" if vehicle.check_availability() else "no disponible"
+#         # print(f"El coche {vehicle.car_brand} {vehicle.car_model} está {availability} y cuesta {vehicle.get_price()}.")
 
-    def __str__(self):
-        return f"{self.id_customer} - {self.name} {self.lastname} - {self.dni} - {self.email} - {self.age} años - {self.registration_date}"
+#     def __str__(self):
+#         return f"{self.id_customer} - {self.name} {self.lastname} - {self.dni} - {self.email} - {self.age} años - {self.registration_date}"
     
-class Purchase:
-    def __init__(self, id_customer, vehicle, purchase_date=None, final_price=None):
-        self.id_customer = id_customer
-        self.vehicle = vehicle
-        self.purchase_date = purchase_date or date.today()
-        self.final_price = final_price or vehicle.price
+# class Purchase:
+#     def __init__(self, id_customer, vehicle, purchase_date=None, final_price=None):
+#         self.id_customer = id_customer
+#         self.vehicle = vehicle
+#         self.purchase_date = purchase_date or date.today()
+#         self.final_price = final_price or vehicle.price
     
-    def __str__(self):
-        return f"Compra: {self.vehicle.license_plate} por cliente {self.id_customer} el {self.purchase_date}"
+#     def __str__(self):
+#         return f"Compra: {self.vehicle.license_plate} por cliente {self.id_customer} el {self.purchase_date}"
     
-class Sale:
-    _id_sales_counter = 1
+# class Sale:
+#     _id_sales_counter = 1
     
-    def __init__(self, id_customer, vehicle, sale_date=None, sale_price=None):
-        self.id_sale = Sale._id_sales_counter
-        Sale._id_sales_counter += 1
+#     def __init__(self, id_customer, vehicle, sale_date=None, sale_price=None):
+#         self.id_sale = Sale._id_sales_counter
+#         Sale._id_sales_counter += 1
         
-        self.id_customer = id_customer
-        self.vehicle = vehicle
-        self.sale_date = sale_date or date.today()
-        self.sale_price = sale_price or vehicle.price  
+#         self.id_customer = id_customer
+#         self.vehicle = vehicle
+#         self.sale_date = sale_date or date.today()
+#         self.sale_price = sale_price or vehicle.price  
         
-    def __str__(self):
-        return f"Venta #{self.id_sale}: {self.vehicle.license_plate} por cliente {self.id_customer} el {self.sale_date}"
+#     def __str__(self):
+#         return f"Venta #{self.id_sale}: {self.vehicle.license_plate} por cliente {self.id_customer} el {self.sale_date}"
 
 class Dealership:
     _id_customers_counter = 1    
