@@ -18,7 +18,4 @@ miCursor.execute("INSERT INTO PRODUCTOS VALUES('BALON', 5, 'DEPORTES')")
 
 miConexion.commit() # Verifica los cambios de registros que se realizan en la tabla
 
-
-
-
 miConexion.close()
